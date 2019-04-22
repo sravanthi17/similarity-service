@@ -1,10 +1,17 @@
 package similarity.api.util;
 
 import org.apache.commons.codec.language.DoubleMetaphone;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 import similarity.api.model.Data;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +23,10 @@ public class EncodeAndGroupUtilTest {
     EncodeAndGroupUtil encodeAndGroupUtil = new EncodeAndGroupUtil();
     DoubleMetaphone dm = new DoubleMetaphone();
 
+    @Before
+    public void setUp(){
+        ReflectionTestUtils.setField(encodeAndGroupUtil, "unique", new String[]{"email"});
+    }
 
     @Test
     public void shouldEncodeAndInsertNewEntryIfKeyDoesNotExist() {

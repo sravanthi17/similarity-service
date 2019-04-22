@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import similarity.api.model.Data;
 import similarity.api.model.DataList;
+import similarity.api.model.SortedData;
 import similarity.api.service.DataSortService;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class DataController {
     DataSortService dataSortService;
 
     @RequestMapping(value = "/similarity/sort", method = RequestMethod.POST)
-    public ResponseEntity<List<Data>> getSortedData(@RequestBody DataList dataList){
+    public ResponseEntity<SortedData> getSortedData(@RequestBody DataList dataList){
        return new ResponseEntity<>(dataSortService.sortData(dataList), HttpStatus.OK);
     }
 }

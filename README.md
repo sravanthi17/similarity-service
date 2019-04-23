@@ -14,17 +14,28 @@ similarity:
   unique: email,id
 
 # All possible fields to configure
-id
-firstName
-lastName
-company
-email
-address1
-address2
-zip
-city
-state
-state_long
-phone
+1. id
+
+2. firstName
+
+3. lastName
+
+4. company
+
+5. email
+
+6. address1
+
+7. address2
+
+8. zip
+
+9. city
+
+10. state
+
+11. state_long
+
+12. phone
   
 

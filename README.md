@@ -1,5 +1,8 @@
 # similarity-service
 
+# Api Documentation
+http://localhost:8080/swagger-ui.html
+
 # Build a docker file
 docker build -t similarity-service .
 

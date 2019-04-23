@@ -40,3 +40,8 @@ similarity:
 12. phone
   
 
+# Build the project
+mvn clean install (will also run the unit tests)
+
+# Run locally
+mvn spring-boot:run

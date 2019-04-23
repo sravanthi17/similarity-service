@@ -1,2 +1,2 @@
 similarity:
-  unique: email,id
+  unique: email

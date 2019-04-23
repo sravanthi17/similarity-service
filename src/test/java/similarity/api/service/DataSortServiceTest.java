@@ -1,40 +1,48 @@
 package similarity.api.service;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.util.ReflectionTestUtils;
 import similarity.api.model.Data;
 import similarity.api.model.DataList;
 import similarity.api.model.SortedData;
 import similarity.api.util.EncodeAndGroupUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
+import static org.hamcrest.CoreMatchers.any;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.when;
 
-@RunWith(SpringRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class DataSortServiceTest {
 
-    @Autowired
+    @InjectMocks
     DataSortService dataSortService;
 
-    @TestConfiguration
-    static class DataSortServiceTestContextConfiguration {
+    @Mock
+    EncodeAndGroupUtil encodeAndGroupUtil;
 
-        @Bean
-        public DataSortService dataSortService() {
-            return new DataSortService();
-        }
 
-        @Bean
-        public EncodeAndGroupUtil encodeAndGroupUtil() {
-            return new EncodeAndGroupUtil();
-        }
+    @Before
+    public void setUp(){
+        MockitoAnnotations.initMocks(this);
+        ReflectionTestUtils.setField(encodeAndGroupUtil, "unique", new String[]{"email", "id"});
     }
+
 
     @Test
     public void shouldReturnEmptyListWhenSortTheEmptyListOfData(){
@@ -80,6 +88,15 @@ public class DataSortServiceTest {
 
 
         data.setDataList(dataArrayList);
+
+        HashMap<String, List<Integer>> duplicateEntries = new HashMap<>();
+        ArrayList<Integer> value = new ArrayList<>();
+        value.add(0);
+        value.add(2);
+        duplicateEntries.put("anc@gmail.com", value);
+
+
+        when(encodeAndGroupUtil.getGroupedEncodedData(data.getDataList())).thenReturn(duplicateEntries);
         SortedData sortedData= dataSortService.sortData(data);
         assertThat(sortedData.getDuplicates().size(), is(2));
         assertThat(sortedData.getDuplicates().get(0).getEmail(), is("anc@gmail.com"));

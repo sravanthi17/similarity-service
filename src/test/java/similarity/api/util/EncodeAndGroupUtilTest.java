@@ -3,15 +3,10 @@ package similarity.api.util;
 import org.apache.commons.codec.language.DoubleMetaphone;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.test.util.ReflectionTestUtils;
 import similarity.api.model.Data;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +20,7 @@ public class EncodeAndGroupUtilTest {
 
     @Before
     public void setUp(){
-        ReflectionTestUtils.setField(encodeAndGroupUtil, "unique", new String[]{"email"});
+        ReflectionTestUtils.setField(encodeAndGroupUtil, "unique", new String[]{"email", "id"});
     }
 
     @Test
@@ -94,4 +89,25 @@ public class EncodeAndGroupUtilTest {
         assertThat(groupedEncodedData.size(), is(0));
     }
 
+    @Test
+    public void shouldAddAnEntryIfKeyAlreadyExistAndEncodedValueIsEmpty() {
+        ArrayList<Data> dataArrayList = new ArrayList<>();
+        Data record1 = new Data();
+        record1.setId("1");
+        dataArrayList.add(record1);
+
+        Data record2 = new Data();
+        record2.setId("2");
+        dataArrayList.add(record2);
+
+        Data record3 = new Data();
+        record3.setId("1");
+        dataArrayList.add(record3);
+        Map<String, List<Integer>> groupedEncodedData = encodeAndGroupUtil.getGroupedEncodedData(dataArrayList);
+        assertThat(groupedEncodedData.size(), is(2));
+        assertThat(groupedEncodedData.get("id#"+1).size(), is(2));
+        assertThat(groupedEncodedData.get("id#"+1).get(0), is(0));
+        assertThat(groupedEncodedData.get("id#"+1).get(1), is(2));
+        assertThat(groupedEncodedData.get("id#"+2).get(0), is(1));
+    }
 }

@@ -1,5 +1,7 @@
 package similarity.api.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import similarity.api.model.Data;
@@ -20,9 +22,15 @@ public class DataSortService {
     @Autowired
     EncodeAndGroupUtil encodeAndGroupUtil;
 
+    private String EVENT_TYPE = "SERVICE";
+
+    Logger logger = LogManager.getLogger(DataSortService.class);
+
     public SortedData sortData(DataList data) {
+        logger.info("EventType: {} SORT_DATA_REQUEST Datalist: {}", EVENT_TYPE, data);
         SortedData sortedData = new SortedData();
         if(data == null || data.getDataList() == null ||  data.getDataList().isEmpty() ) {
+            logger.info("EventType: {} SORT_DATA_EMPTY_DATA", EVENT_TYPE);
             return sortedData;
         }else {
             List<Data> dataList = data.getDataList();
@@ -40,6 +48,7 @@ public class DataSortService {
 
             sortedData.setDuplicates(duplicateData);
             sortedData.setNonDuplicates(nonDuplicates);
+            logger.info("EventType: {} SORT_DATA_SUCCESS SortedData: {}", EVENT_TYPE, sortedData);
             return sortedData;
         }
     }

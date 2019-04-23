@@ -1,6 +1,8 @@
 package similarity.api.util;
 
 import org.apache.commons.codec.language.DoubleMetaphone;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import similarity.api.model.Data;
@@ -18,7 +20,12 @@ public class EncodeAndGroupUtil {
     @Value("${similarity.unique}")
     private String[] unique;
 
+    private String EVENT_TYPE = "UTIL";
+
+    Logger logger = LogManager.getLogger(EncodeAndGroupUtil.class);
+
     public Map<String, List<Integer>> getGroupedEncodedData(List<Data> dataList) {
+        logger.info("EventType: {} ENCODE_AND_GROUP_UTIL_REQUEST DataList: {}", EVENT_TYPE, dataList);
         Map<String, List<Integer>> duplicateEntries = new HashMap<>();
 
         dataList.stream().forEach((eachRecord) -> {
@@ -40,6 +47,7 @@ public class EncodeAndGroupUtil {
             }
             });
         });
+        logger.info("EventType: {} ENCODE_AND_GROUP_UTIL_SUCCESS DuplicateEntries: {}", EVENT_TYPE, duplicateEntries);
         return duplicateEntries;
     }
 

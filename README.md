@@ -11,6 +11,7 @@ You can configure what columns to be considered for similarity check in applicat
 Sample configuration below explains that email and id are considered for similarity check
 # Example
 similarity:
+
   unique: email,id
 
 # All possible fields to configure

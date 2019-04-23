@@ -26,7 +26,7 @@ public class EncodeAndGroupUtil {
             String value = callGetter(eachRecord, uniqueKey);
             if (value != null && !value.trim().isEmpty()) {
                 value = value.trim();
-                String encodedValue = dm.doubleMetaphone(value);
+                String encodedValue = dm.doubleMetaphone(value).isEmpty() ? value : dm.doubleMetaphone(value);
                 ArrayList<Integer> duplicates = new ArrayList<>();
                 String key = uniqueKey + "#" + encodedValue;
                 if (!duplicateEntries.containsKey(key)) {

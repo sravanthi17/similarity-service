@@ -56,26 +56,7 @@ public class DataControllerTest {
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
-        System.out.println(result.getResponse());
-        String expected = "{\n" +
-                "  \"nonDuplicates\":\n" +
-                "  [\n" +
-                "    {\n" +
-                "        \"id\": \"sample\",\n" +
-                "        \"firstName\": null,\n" +
-                "        \"lastName\": null,\n" +
-                "        \"company\": null,\n" +
-                "        \"email\": null,\n" +
-                "        \"address1\": null,\n" +
-                "        \"address2\": null,\n" +
-                "        \"zip\": null,\n" +
-                "        \"city\": null,\n" +
-                "        \"state\": null,\n" +
-                "        \"state_long\": null,\n" +
-                "        \"phone\": null\n" +
-                "    }\n" +
-                "]\n" +
-                "}";
+        String expected = "{\"duplicates\":[],\"nonDuplicates\":[{\"id\": \"sampleId\",\"company\":null,\"email\":null,\"address1\":null,\"address2\":null,\"zip\":null,\"city\":null,\"state\":null,\"state_long\":null,\"phone\":null,\"first_name\":\"Sample Name\",\"last_name\":null}]}";
 
         JSONAssert.assertEquals(expected, result.getResponse()
                 .getContentAsString(), false);
